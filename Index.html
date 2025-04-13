@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Table with Persistent Storage</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .hidden {
+            pointer-events: none;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Subjects and Syllabus</h1>
+    <button id="edit-button">Edit</button>
+    <button id="save-button" disabled>Save</button>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name of Subjects</th>
+                <th>Chapters Completed</th>
+                <th>Syllabus Coverage (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Mathematics</td>
+                <td>5</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Physics</td>
+                <td>4</td>
+                <td>40%</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Chemistry</td>
+                <td>3</td>
+                <td>30%</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Biology</td>
+                <td>6</td>
+                <td>60%</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>History</td>
+                <td>7</td>
+                <td>70%</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Geography</td>
+                <td>5</td>
+                <td>50%</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>English Literature</td>
+                <td>8</td>
+                <td>80%</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Computer Science</td>
+                <td>4</td>
+                <td>40%</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Economics</td>
+                <td>3</td>
+                <td>30%</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Political Science</td>
+                <td>6</td>
+                <td>60%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        const editButton = document.getElementById('edit-button');
+        const saveButton = document.getElementById('save-button');
+        const table = document.getElementById('data-table');
+        const tableBody = table.querySelector('tbody');
+
+        // Load saved data from localStorage
+        function loadTableData() {
+            const savedData = localStorage.getItem('tableData');
+            if (savedData) {
+                tableBody.innerHTML = savedData;
+            }
+        }
+
+        // Save table data to localStorage
+        function saveTableData() {
+            localStorage.setItem('tableData', tableBody.innerHTML);
+        }
+
+        editButton.addEventListener('click', () => {
+            table.contentEditable = "true";
+            saveButton.disabled = false;
+            editButton.disabled = true;
+        });
+
+        saveButton.addEventListener('click', () => {
+            table.contentEditable = "false";
+            saveButton.disabled = true;
+            editButton.disabled = false;
+            saveTableData();
+        });
+
+        // Initialize table with saved data
+        loadTableData();
+    </script>
+</body>
+</html>
